@@ -13,16 +13,16 @@ export default function About() {
                 <Navbar></Navbar>
             </div>
             <div className={`${darkTheme ? `bg-[#111111]` : `bg-white`} flex-1 flex flex-col justify-start items-center p-10 gap-10 transition-all duration-300`}>
-                <h1 className='text-[#F5AE6F] text-4xl'>Sobre Nós</h1>
+                <h1 className='text-[#C59151] text-4xl'>Sobre Nós</h1>
 
 
 
 
-                <div className={`${darkTheme ? `bg-[#1E1E20]` : `bg-gray-300`} flex flex-col w-300 rounded-xl gap-5 p-10 transition-all duration-300`}>
+                <div className={`${darkTheme ? `bg-[#1E1E20]` : `bg-gray-200`} flex flex-col w-300 rounded-xl gap-5 p-10 transition-all duration-300`}>
 
                     <div className='flex flex-col items-center justify-center'>
-                        <h1 className='text-[#F5AE6F] text-xl font-bold'>Henrique Cespedes Lourenço</h1>
-                        <h2 className='text-[#F5AE6F] text-xl'>OAB/SP nº 336.967</h2>
+                        <h1 className='text-[#C59151] text-xl font-bold'>Henrique Cespedes Lourenço</h1>
+                        <h2 className='text-[#C59151] text-xl'>OAB/SP nº 336.967</h2>
                     </div>
 
                     <div className='flex gap-10'>
@@ -39,7 +39,7 @@ export default function About() {
                         </div>
                     </div>
 
-                    <div className='w-full border border-[#F5AE6F]'></div>
+                    <div className='w-full border border-[#C59151]'></div>
 
                     <div className='flex justify-between'>
 
@@ -60,11 +60,11 @@ export default function About() {
 
 
 
-                <div className={`${darkTheme ? `bg-[#1E1E20]` : `bg-gray-300`} flex flex-col w-300 rounded-xl gap-5 p-10 transition-all duration-300`}>
+                <div className={`${darkTheme ? `bg-[#1E1E20]` : `bg-gray-200`} flex flex-col w-300 rounded-xl gap-5 p-10 transition-all duration-300`}>
 
                     <div className='flex flex-col items-center justify-center'>
-                        <h1 className='text-[#F5AE6F] text-xl font-bold'>Heloísa Cespedes Lourenço</h1>
-                        <h2 className='text-[#F5AE6F] text-xl'>OAB/SP 296.444</h2>
+                        <h1 className='text-[#C59151] text-xl font-bold'>Heloísa Cespedes Lourenço</h1>
+                        <h2 className='text-[#C59151] text-xl'>OAB/SP 296.444</h2>
                     </div>
 
                     <div className='flex gap-10'>
@@ -82,7 +82,7 @@ export default function About() {
                         </div>
                     </div>
 
-                    <div className='w-full border border-[#F5AE6F]'></div>
+                    <div className='w-full border border-[#C59151]'></div>
 
                     <div className='flex justify-between'>
 
