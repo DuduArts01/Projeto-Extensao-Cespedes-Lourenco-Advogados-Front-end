@@ -21,7 +21,7 @@ export default function Home() {
     }
 
     return(
-        <div className={`${darkTheme ? `bg-black` : `bg-[#0A0B4D]`} flex w-full min-h-40 justify-between items-center transition-all duration-300`}>
+        <div className={`${darkTheme ? `bg-[#080808]` : `bg-[#303380]`} flex w-full min-h-40 justify-between items-center transition-all duration-300`}>
             <img src="src\assets\images\logo-branca.png" alt="cespedes_lourenço_logo.png" className='pl-10'/>
             <div className='flex items-center text-white text-3xl gap-10 pr-10'>
                 <h1 className={`${darkTheme ? `hover:text-yellow-500` : `hover:text-[#D88715]`} cursor-pointer transition-all duration-300`} onClick={goHome}>Home</h1>
