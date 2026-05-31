@@ -3,7 +3,6 @@ import { FaCalculator } from "react-icons/fa";
 import { ThemeContext } from "../contexts/themeContext";
 import { useContext, useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
-import Checkbox from "../components/Checkbox";
 
 export default function Calculator() {
   const { darkTheme } = useContext(ThemeContext);
@@ -21,6 +20,157 @@ export default function Calculator() {
   const [regimeText, setRegimeText] = useState("Selecione o regime");
   const [crimeText, setCrimeText] = useState("Selecione o tipo de crime");
 
+  const [yearError, setYError] = useState('');
+
+  const [penaltyYears, setPenaltyYears] = useState('');
+  const handleYear = (evento: React.ChangeEvent<HTMLInputElement>) => {
+    const year = evento.target.value;
+
+    setPenaltyYears(year);
+
+    if (year === '') {
+      setYError('Digite um valor');
+    } else if (Number(year) < 0) {
+      setYError('Tempo inválido.');
+    } else {
+      setYError('');
+    }
+  };
+
+  const [monthError, setMError] = useState('');
+  const [penaltyMonths, setPenaltyMonths] = useState('');
+  const handleMonth = (evento: React.ChangeEvent<HTMLInputElement>) => {
+    const month = evento.target.value;
+
+    setPenaltyMonths(month);
+
+    if (month === '') {
+    setMError('Digite um valor');
+    } else if (Number(month) < 1 || Number(month) > 11) {
+    setMError('Tempo inválido.');
+    } else {
+    setMError('');
+    }
+  };
+
+  const [dayError, setDError] = useState('');
+  const [penaltyDays, setPenaltyDays] = useState('');
+  const handleDays = (evento: React.ChangeEvent<HTMLInputElement>) => {
+    const day = evento.target.value;
+
+    setPenaltyDays(day);
+
+    if (day === '') {
+      setDError('Digite um valor');
+    } else if (Number(day) < 0 || Number(day) > 29) {
+      setDError('Tempo inválido.');
+    } else {
+      setDError('');
+    }
+  };
+
+  const [status, setStatus] = useState(true);
+  const [inMateStatus, setInMateStatus] = useState('');
+  const handleStatus = () => {
+    setStatus((prev) => !prev)
+
+    if (status == true) {
+      setInMateStatus("RECIDIVIST")
+    }
+    else {
+      setInMateStatus("PRIMARY")
+    }
+  }
+
+  const [threatStatus, setThreatStatus] = useState(true);
+  const [threat, setThreat] = useState('');
+  const handleThreat = () => {
+    setThreatStatus((prev) => !prev)
+
+    if (threatStatus == true) {
+      setThreat("THREAT")
+    }
+    else {
+      setThreat("NOT THREAT")
+    }
+  }
+
+  const [detraction, setDetractionError] = useState('');
+  const [detractionDays, setDetractionDays] = useState('');
+  const handleDetraction = (evento: React.ChangeEvent<HTMLInputElement>) => {
+    const detractionDays = evento.target.value;
+
+    setDetractionDays(detractionDays);
+
+    if (detractionDays === '') {
+      setDetractionError('Digite um valor');
+    } else if (Number(detractionDays) < 0) {
+      setDetractionError('Tempo de Detração inválido.');
+    } else {
+      setDetractionError('');
+    }
+  };
+
+  const [date, setDateError] = useState('');
+  const [baseDate, setBaseDate] = useState('');
+  const handleBaseDate = (evento: React.ChangeEvent<HTMLInputElement>) => {
+    const baseDate = evento.target.value.replace("/", "-");
+
+    setBaseDate(baseDate);
+    if (baseDate.length > 10) {
+      setDateError("Digite uma data válida")
+    } else {
+      setDateError('');
+    }
+  }
+
+  const [workError, setWorkError] = useState('');
+  const [daysWorked, setDaysWorked] = useState('');
+  const handleWork = (evento: React.ChangeEvent<HTMLInputElement>) => {
+    const daysWorked = evento.target.value;
+
+    setDaysWorked(daysWorked);
+
+    if (daysWorked === '') {
+      setWorkError('Digite um valor');
+    } else if (Number(daysWorked) < 0) {
+      setWorkError('Quantidade inválida.');
+    } else {
+      setWorkError('');
+    }
+  };
+
+  const [studyError, setStudyError] = useState('');
+  const [studyHours, setStudyHours] = useState('');
+  const handleStudy = (evento: React.ChangeEvent<HTMLInputElement>) => {
+    const studyHours = evento.target.value;
+
+    setStudyHours(studyHours);
+
+    if (studyHours === '') {
+      setStudyError('Digite um valor');
+    } else if (Number(studyHours) < 0) {
+      setStudyError('Quantidade inválida.');
+    } else {
+      setStudyError('');
+    }
+  };
+
+  const [bookError, setBookError] = useState('');
+  const [booksRead, setBooksRead] = useState('');
+  const handleBooks = (evento: React.ChangeEvent<HTMLInputElement>) => {
+    const booksRead = evento.target.value;
+
+    setBooksRead(booksRead);
+
+    if (booksRead === '') {
+      setBookError('Digite um valor');
+    } else if (Number(booksRead) < 0 || Number(booksRead) > 12) {
+      setBookError('Quantidade inválida.');
+    } else {
+      setBookError('');
+    }
+  };
 
   return (
     <main className="flex flex-col w-full min-h-screen">
@@ -52,9 +202,13 @@ export default function Calculator() {
                     </h2>
                     <input
                       type="text"
+                      value={penaltyYears}
+                      onChange={handleYear}
+                      style={{ border: yearError ? '1px solid red' : '1px solid #ccc' }}
                       className={`${darkTheme ? `bg-[#515257] placeholder:text-white text-white` : `bg-[#eff0fa] placeholder:text-black text-black`} p-3 outline-none rounded-xl transition-all duration-300`}
                       placeholder="A partir de 1 ano"
                     />
+                    {yearError && <span style={{ color: 'red', fontSize: '14px' }}>{yearError}</span>}
                   </div>
 
                   <div className="flex flex-col gap-2">
@@ -65,9 +219,12 @@ export default function Calculator() {
                     </h2>
                     <input
                       type="text"
+                      value={penaltyMonths}
+                      onChange={handleMonth}
                       className={`${darkTheme ? `bg-[#515257] placeholder:text-white text-white` : `bg-[#eff0fa] placeholder:text-black text-black`} p-3 outline-none rounded-xl transition-all duration-300`}
                       placeholder="Até 11 meses"
                     />
+                    {monthError && <span style={{ color: 'red', fontSize: '14px' }}>{monthError}</span>}
                   </div>
 
                   <div className="flex flex-col gap-2">
@@ -78,9 +235,12 @@ export default function Calculator() {
                     </h2>
                     <input
                       type="text"
+                      value={penaltyDays}
+                      onChange={handleDays}
                       className={`${darkTheme ? `bg-[#515257] placeholder:text-white text-white` : `bg-[#eff0fa] placeholder:text-black text-black`} p-3 outline-none rounded-xl transition-all duration-300`}
                       placeholder="Até 29 dias"
                     />
+                    {dayError && <span style={{ color: 'red', fontSize: '14px' }}>{dayError}</span>}
                   </div>
                 </div>
 
@@ -91,8 +251,90 @@ export default function Calculator() {
                 <div
                   className={`${darkTheme ? `bg-[#45464a]` : `bg-[#f6f6fc]`} flex flex-col p-5 border border-gray-300 rounded-xl gap-5 transition-all duration-300`}
                 >
-                  <Checkbox label="Reincidente" darkTheme={darkTheme} />
-                  <Checkbox label="Crime com violência ou grave ameaça" darkTheme={darkTheme} />
+                  <div className="flex gap-2 items-center">
+                    <div className="flex relative">
+                      <input
+                        type="checkbox"
+                        value={inMateStatus}
+                        onChange={handleStatus}
+                        className={`
+                          ${darkTheme ? `border-gray-300
+                          bg-[#515257] checked:border-[#D88715] checked:bg-[#D88715]` : `border-gray-300
+                          bg-white checked:border-blue-600
+                          checked:bg-blue-600`}
+                          peer h-5 w-5 shrink-0 appearance-none
+                          rounded-md border-2 transition-all duration-200
+                        `}
+                      />
+              
+                      <svg
+                        className="
+                          pointer-events-none absolute
+                          left-1/2 top-1/2
+                          h-3 w-3
+                          -translate-x-1/2 -translate-y-1/2
+                          text-white opacity-0
+                          peer-checked:opacity-100
+                        "
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        strokeWidth={3}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                    </div>
+              
+                    <p className={darkTheme ? "text-white" : "text-black"}>
+                      Reincidente
+                    </p>
+                  </div>
+                  <div className="flex gap-2 items-center">
+                  <div className="flex relative">
+                    <input
+                      type="checkbox"
+                      value={threat}
+                      onChange={handleThreat}
+                      className={`
+                        ${darkTheme ? `border-gray-300
+                        bg-[#515257] checked:border-[#D88715] checked:bg-[#D88715]` : `border-gray-300
+                        bg-white checked:border-blue-600
+                        checked:bg-blue-600`}
+                        peer h-5 w-5 shrink-0 appearance-none
+                        rounded-md border-2 transition-all duration-200
+                      `}
+                    />
+            
+                    <svg
+                      className="
+                        pointer-events-none absolute
+                        left-1/2 top-1/2
+                        h-3 w-3
+                        -translate-x-1/2 -translate-y-1/2
+                        text-white opacity-0
+                        peer-checked:opacity-100
+                      "
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={3}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                  </div>
+            
+                  <p className={darkTheme ? "text-white" : "text-black"}>
+                    Crime com violência ou grave ameaça
+                  </p>
+                </div>
                   <div className="flex gap-2 items-center">
                     <p
                       className={`${darkTheme ? `text-white` : `text-black`} transition-all duration-300`}
@@ -101,9 +343,12 @@ export default function Calculator() {
                     </p>
                     <input
                       type="text"
+                      value={detractionDays}
+                      onChange={handleDetraction}
                       className={`${darkTheme ? `text-white placeholder:text-white bg-[#515257]` : `text-black placeholder:text-black bg-[#eff0fa]`} border border-gray-300 rounded-lg focus:outline-none p-2 transition-all duration-300`}
                       placeholder="A partir de 1 dia"
                     />
+                    {detraction && <span style={{ color: 'red', fontSize: '14px' }}>{detraction}</span>}
                   </div>
                 </div>
               </div>
@@ -253,9 +498,13 @@ export default function Calculator() {
                 </h2>
                 <input
                   type="text"
+                  value={baseDate}
+                  onChange={handleBaseDate}
                   className={`${darkTheme ? `bg-[#515257] placeholder:text-white text-white` : `bg-[#eff0fa] placeholder:text-black text-black`} p-3 outline-none rounded-xl transition-all duration-300`}
-                  placeholder="dd/mm/aaaa"
+                  placeholder="dd-mm-aaaa"
                 />
+                <p>{baseDate}</p>
+                {date && <span style={{ color: 'red', fontSize: '14px' }}>{date}</span>}
               </div>
 
               <div className="flex flex-col gap-2">
@@ -266,9 +515,12 @@ export default function Calculator() {
                 </h2>
                 <input
                   type="text"
+                  value={daysWorked}
+                  onChange={handleWork}
                   className={`${darkTheme ? `bg-[#515257] placeholder:text-white text-white` : `bg-[#eff0fa] placeholder:text-black text-black`} p-3 outline-none rounded-xl transition-all duration-300`}
                   placeholder="A partir de 1 dia"
                 />
+                {workError && <span style={{ color: 'red', fontSize: '14px' }}>{workError}</span>}
               </div>
 
               <div className="flex flex-col gap-2">
@@ -279,9 +531,12 @@ export default function Calculator() {
                 </h2>
                 <input
                   type="text"
+                  value={studyHours}
+                  onChange={handleStudy}
                   className={`${darkTheme ? `bg-[#515257] placeholder:text-white text-white` : `bg-[#eff0fa] placeholder:text-black text-black`} p-3 outline-none rounded-xl transition-all duration-300`}
                   placeholder="A partir de 1 hora"
                 />
+                {studyError && <span style={{ color: 'red', fontSize: '14px' }}>{studyError}</span>}
               </div>
 
               <div className="flex flex-col gap-2">
@@ -292,9 +547,12 @@ export default function Calculator() {
                 </h2>
                 <input
                   type="text"
+                  value={booksRead}
+                  onChange={handleBooks}
                   className={`${darkTheme ? `bg-[#515257] placeholder:text-white text-white` : `bg-[#eff0fa] placeholder:text-black text-black`} p-3 outline-none rounded-xl transition-all duration-300`}
-                  placeholder="A partir de 1 livro"
+                  placeholder="Até 12 livros"
                 />
+                {bookError && <span style={{ color: 'red', fontSize: '14px' }}>{bookError}</span>}
               </div>
             </div>
 
