@@ -1,11 +1,13 @@
 import Navbar from "../components/Navbar";
-import { FaCalculator } from "react-icons/fa";
 import { ThemeContext } from "../contexts/themeContext";
 import { useContext, useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
+import PenaltyCalculator from "../components/Result"
 
 export default function Calculator() {
   const { darkTheme } = useContext(ThemeContext);
+
+  const [showPopup, setShowPopup] = useState(false);
 
   const [isCrimeOpen, setCrimeOpen] = useState(false);
   const toggleCrime = () => {
@@ -46,7 +48,7 @@ export default function Calculator() {
 
     if (month === '') {
     setMError('Digite um valor');
-    } else if (Number(month) < 1 || Number(month) > 11) {
+    } else if (Number(month) < 0 || Number(month) > 11) {
     setMError('Tempo inválido.');
     } else {
     setMError('');
@@ -82,19 +84,6 @@ export default function Calculator() {
     }
   }
 
-  const [threatStatus, setThreatStatus] = useState(true);
-  const [threat, setThreat] = useState('');
-  const handleThreat = () => {
-    setThreatStatus((prev) => !prev)
-
-    if (threatStatus == true) {
-      setThreat("THREAT")
-    }
-    else {
-      setThreat("NOT THREAT")
-    }
-  }
-
   const [detraction, setDetractionError] = useState('');
   const [detractionDays, setDetractionDays] = useState('');
   const handleDetraction = (evento: React.ChangeEvent<HTMLInputElement>) => {
@@ -111,34 +100,43 @@ export default function Calculator() {
     }
   };
 
-  const [date, setDateError] = useState('');
-  const [baseDate, setBaseDate] = useState('');
-  const handleBaseDate = (evento: React.ChangeEvent<HTMLInputElement>) => {
-    const baseDate = evento.target.value.replace("/", "-");
+    const [dateError, setDateError] = useState('');
+    const [baseDate, setBaseDate] = useState('');
 
-    setBaseDate(baseDate);
+    const isValidDate = (value: string) => {
+      const [year, month, day] = value.split('-').map(Number);
 
-    if (baseDate.length === 10) {
-      const [dateDay, dateMonth, dateYear] = baseDate.split('-').map(Number);
-  
-    if (
-      dateDay < 1 ||
-      dateDay > 31 ||
-      dateMonth < 1 ||
-      dateMonth > 12 ||
-      dateYear < 0
-      ) {
-      setDateError('Digite uma data válida');
-      return;
+      const date = new Date(year, month - 1, day);
+
+      return (
+        date.getFullYear() === year &&
+        date.getMonth() === month - 1 &&
+        date.getDate() === day
+      );
+    };
+
+    const handleBaseDate = (evento: React.ChangeEvent<HTMLInputElement>) => {
+      const value = evento.target.value.replaceAll('/', '-');
+
+      setBaseDate(value);
+
+      if (value.length === 0) {
+        setDateError('');
+        return;
       }
-    }
 
-    if (baseDate.length > 10) {
-      setDateError("Digite uma data válida.")
-    } else {
+      if (value.length !== 10) {
+        setDateError('Digite uma data válida');
+        return;
+      }
+
+      if (!isValidDate(value)) {
+        setDateError('Digite uma data válida');
+        return;
+      }
+
       setDateError('');
-    }
-  }
+    };
 
   const [workError, setWorkError] = useState('');
   const [daysWorked, setDaysWorked] = useState('');
@@ -188,6 +186,22 @@ export default function Calculator() {
     }
   };
 
+  const [regime, setRegime] = useState("");
+  const initialRegimeMap: Record<string, string> = {
+    Fechado: "CLOSED",
+    Semiaberto: "SEMI_OPEN",
+    Aberto: "OPEN",
+  };
+  const initialRegime = initialRegimeMap[regime] ?? "";
+
+  const [crime, setCrime] = useState("");
+  const crimeTypeMap: Record<string, string> = {
+    Equivalente: "EQUIVALENT",
+    Hediondo: "HEINOUS",
+    Comum: "COMMON",
+  };
+  const crimeType = crimeTypeMap[crime] ?? "";
+
   return (
     <main className="flex flex-col w-full min-h-screen">
       <div
@@ -220,7 +234,6 @@ export default function Calculator() {
                       type="text"
                       value={penaltyYears}
                       onChange={handleYear}
-                      style={{ border: yearError ? '1px solid red' : '1px solid #ccc' }}
                       className={`${darkTheme ? `bg-[#515257] placeholder:text-white text-white` : `bg-[#eff0fa] placeholder:text-black text-black`} p-3 outline-none rounded-xl transition-all duration-300`}
                       placeholder="A partir de 1 ano"
                     />
@@ -265,7 +278,7 @@ export default function Calculator() {
                 ></div>
 
                 <div
-                  className={`${darkTheme ? `bg-[#45464a]` : `bg-[#f6f6fc]`} flex flex-col p-5 border border-gray-300 rounded-xl gap-5 transition-all duration-300`}
+                  className={`${darkTheme ? `bg-[#45464a]` : `bg-[#f6f6fc]`} flex flex-col p-5 border border-gray-300 rounded-xl gap-2 transition-all duration-300`}
                 >
                   <div className="flex gap-2 items-center">
                     <div className="flex relative">
@@ -309,48 +322,7 @@ export default function Calculator() {
                       Reincidente
                     </p>
                   </div>
-                  <div className="flex gap-2 items-center">
-                  <div className="flex relative">
-                    <input
-                      type="checkbox"
-                      value={threat}
-                      onChange={handleThreat}
-                      className={`
-                        ${darkTheme ? `border-gray-300
-                        bg-[#515257] checked:border-[#D88715] checked:bg-[#D88715]` : `border-gray-300
-                        bg-white checked:border-blue-600
-                        checked:bg-blue-600`}
-                        peer h-5 w-5 shrink-0 appearance-none
-                        rounded-md border-2 transition-all duration-200
-                      `}
-                    />
-            
-                    <svg
-                      className="
-                        pointer-events-none absolute
-                        left-1/2 top-1/2
-                        h-3 w-3
-                        -translate-x-1/2 -translate-y-1/2
-                        text-white opacity-0
-                        peer-checked:opacity-100
-                      "
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={3}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                  </div>
-            
-                  <p className={darkTheme ? "text-white" : "text-black"}>
-                    Crime com violência ou grave ameaça
-                  </p>
-                </div>
+                  
                   <div className="flex gap-2 items-center">
                     <p
                       className={`${darkTheme ? `text-white` : `text-black`} transition-all duration-300`}
@@ -382,39 +354,41 @@ export default function Calculator() {
                   Regime Inicial
                 </h2>
                 <div className="relative flex w-full items-center">
-                <div className="w-full">
-                        <input
-                        type="text"
-                        className={`${darkTheme ? `bg-[#515257] placeholder:text-white text-white` : `bg-[#eff0fa] placeholder:text-black text-black`} relative w-full p-3 outline-none rounded-xl rounded-r-xl transition-all duration-300`}
-                        placeholder={regimeText || "Selecione o regime"}
-                        />
+                  <div className="w-full">
+                    <input
+                    disabled
+                    type="text"
+                    value={regime}
+                    className={`${darkTheme ? `bg-[#515257] placeholder:text-white text-white` : `bg-[#eff0fa] placeholder:text-black text-black`} relative w-full p-3 outline-none rounded-xl rounded-r-xl transition-all duration-300`}
+                    placeholder={regimeText || "Selecione o regime"}
+                    />
 
-                        <div className={`${isRegimeOpen ? `` : `hidden`} ${darkTheme ? `bg-[#515257]` : `bg-[#eff0fa]`} absolute flex flex-col w-full shadow-xl rounded-xl`}>
-                            <p 
-                            onMouseEnter={() => setRegimeText("Fechado")}
-                            onClick={() => {
-                                setRegimeText("Fechado");
-                                setRegimeOpen(false);
-                            }}
-                            className={`${darkTheme ? `hover:bg-orange-300 text-white` : `hover:bg-blue-300`} cursor-pointer py-1 pl-3 text-xl rounded-xl transition-colors duration-300`}>Fechado</p>
+                    <div className={`${isRegimeOpen ? `` : `hidden`} ${darkTheme ? `bg-[#515257]` : `bg-[#eff0fa]`} absolute flex flex-col w-full shadow-xl rounded-xl`}>
+                        <p 
+                        onMouseEnter={() => setRegimeText("Fechado")}
+                        onClick={() => {
+                            setRegimeOpen((prev) => !prev);
+                            setRegime("Fechado")
+                        }}
+                        className={`${darkTheme ? `hover:bg-orange-300 text-white` : `hover:bg-blue-300`} cursor-pointer py-1 pl-3 text-xl rounded-xl transition-colors duration-300`}>Fechado</p>
 
-                            <p
-                            onMouseEnter={() => setRegimeText("Semiaberto")}
-                            onClick={() => {
-                                setRegimeText("Semiaberto");
-                                setRegimeOpen(false);
-                            }}
-                            className={`${darkTheme ? `hover:bg-orange-300 text-white` : `hover:bg-blue-300`} cursor-pointer py-1 pl-3 text-xl rounded-xl transition-colors duration-300`}>Semiaberto</p>
+                        <p
+                        onMouseEnter={() => setRegimeText("Semiaberto")}
+                        onClick={() => {
+                            setRegimeOpen((prev) => !prev);
+                            setRegime("Semiaberto")
+                        }}
+                        className={`${darkTheme ? `hover:bg-orange-300 text-white` : `hover:bg-blue-300`} cursor-pointer py-1 pl-3 text-xl rounded-xl transition-colors duration-300`}>Semiaberto</p>
 
-                            <p
-                            onMouseEnter={() => setRegimeText("Aberto")}
-                            onClick={() => {
-                                setRegimeText("Aberto");
-                                setRegimeOpen(false);
-                            }}
-                            className={`${darkTheme ? `hover:bg-orange-300 text-white` : `hover:bg-blue-300`} cursor-pointer py-1 pl-3 text-xl rounded-xl transition-colors duration-300`}>Aberto</p>
-                        </div>
+                        <p
+                        onMouseEnter={() => setRegimeText("Aberto")}
+                        onClick={() => {
+                            setRegimeOpen((prev) => !prev);
+                            setRegime("Aberto")
+                        }}
+                        className={`${darkTheme ? `hover:bg-orange-300 text-white` : `hover:bg-blue-300`} cursor-pointer py-1 pl-3 text-xl rounded-xl transition-colors duration-300`}>Aberto</p>
                     </div>
+                  </div>
 
                   <button
                     type="button"
@@ -426,7 +400,6 @@ export default function Calculator() {
                     ></IoIosArrowForward>
                   </button>
                 </div>
-                
               </div>
 
               <div className="flex flex-col w-1/2 gap-2">
@@ -438,49 +411,35 @@ export default function Calculator() {
                 <div className="relative flex w-full items-center">
                     <div className="w-full">
                         <input
+                        disabled
                         type="text"
+                        value={crime}
                         className={`${darkTheme ? `bg-[#515257] placeholder:text-white text-white` : `bg-[#eff0fa] placeholder:text-black text-black`} relative w-full p-3 outline-none rounded-xl rounded-r-xl transition-all duration-300`}
                         placeholder={crimeText || "Selecione o tipo de crime"}
                         />
 
                         <div className={`${isCrimeOpen ? `` : `hidden`} ${darkTheme ? `bg-[#515257]` : `bg-[#eff0fa]`} absolute flex flex-col w-full shadow-xl rounded-xl`}>
                             <p
-                            onMouseEnter={() => setCrimeText("Hediondo com resultado em morte")}
+                            onMouseEnter={() => setCrimeText("Equivalente")}
                             onClick={() => {
-                                setCrimeText("Hediondo com resultado em morte");
-                                setCrimeOpen(false);
+                                setCrimeOpen((prev) => !prev);
+                                setCrime("Equivalente");
                             }}
-                            className={`${darkTheme ? `hover:bg-orange-300 text-white` : `hover:bg-blue-300`} cursor-pointer py-1 pl-3 text-xl rounded-xl transition-colors duration-300`}>Hediondo com resultado em morte</p>
-
-                            <p
-                            onMouseEnter={() => setCrimeText("Organização Criminosa")}
-                            onClick={() => {
-                                setCrimeText("Organização Criminosa");
-                                setCrimeOpen(false);
-                            }}
-                            className={`${darkTheme ? `hover:bg-orange-300 text-white` : `hover:bg-blue-300`} cursor-pointer py-1 pl-3 text-xl rounded-xl transition-colors duration-300`}>Organização Criminosa</p>
-
-                            <p
-                            onMouseEnter={() => setCrimeText("Tráfico de Drogas")}
-                            onClick={() => {
-                                setCrimeText("Tráfico de Drogas");
-                                setCrimeOpen(false);
-                            }}
-                            className={`${darkTheme ? `hover:bg-orange-300 text-white` : `hover:bg-blue-300`} cursor-pointer py-1 pl-3 text-xl rounded-xl transition-colors duration-300`}>Tráfico de Drogas</p>
+                            className={`${darkTheme ? `hover:bg-orange-300 text-white` : `hover:bg-blue-300`} cursor-pointer py-1 pl-3 text-xl rounded-xl transition-colors duration-300`}>Equivalente</p>
 
                             <p
                             onMouseEnter={() => setCrimeText("Hediondo")}
                             onClick={() => {
-                                setCrimeText("Hediondo");
-                                setCrimeOpen(false);
+                                setCrimeOpen((prev) => !prev);
+                                setCrime("Hediondo");
                             }}
                             className={`${darkTheme ? `hover:bg-orange-300 text-white` : `hover:bg-blue-300`} cursor-pointer py-1 pl-3 text-xl rounded-xl transition-colors duration-300`}>Hediondo</p>
 
                             <p
                             onMouseEnter={() => setCrimeText("Comum")}
                             onClick={() => {
-                                setCrimeText("Comum");
-                                setCrimeOpen(false);
+                                setCrimeOpen((prev) => !prev);
+                                setCrime("Comum");
                             }}
                             className={`${darkTheme ? `hover:bg-orange-300 text-white` : `hover:bg-blue-300`} cursor-pointer py-1 pl-3 text-xl rounded-xl transition-colors duration-300`}>Comum</p>
 
@@ -513,14 +472,13 @@ export default function Calculator() {
                   Data de Início do Cumprimento da Pena
                 </h2>
                 <input
-                  type="text"
+                  type="data"
                   value={baseDate}
                   onChange={handleBaseDate}
                   className={`${darkTheme ? `bg-[#515257] placeholder:text-white text-white` : `bg-[#eff0fa] placeholder:text-black text-black`} p-3 outline-none rounded-xl transition-all duration-300`}
-                  placeholder="dd-mm-aaaa"
+                  placeholder="aaaa-mm-dd"
                 />
-                <p>{baseDate}</p>
-                {date && <span style={{ color: 'red', fontSize: '14px' }}>{date}</span>}
+                {dateError && <span style={{ color: 'red', fontSize: '14px' }}>{dateError}</span>}
               </div>
 
               <div className="flex flex-col gap-2">
@@ -577,54 +535,22 @@ export default function Calculator() {
             ></div>
 
             <div className="flex w-full gap-10 justify-between">
-              <div
-                className={`${darkTheme ? `bg-[#515257]` : `bg-[#eff0fa]`} flex flex-1 gap-10 p-5 rounded-xl justify-between transition-all duration-300`}
-              >
-                <div className="flex flex-col items-center gap-3">
-                  <h2
-                    className={`${darkTheme ? `text-[#fff5e2]` : `text-[#00021a]`} font-bold transition-all duration-300`}
-                  >
-                    Regime Semiaberto
-                  </h2>
-                  <p
-                    className={`${darkTheme ? `text-white` : `text-black`} transition-all duration-300`}
-                  >
-                    120 dias
-                  </p>
-                </div>
-
-                <div className="flex flex-col items-center gap-3">
-                  <h2
-                    className={`${darkTheme ? `text-[#fff5e2]` : `text-[#00021a]`} font-bold transition-all duration-300`}
-                  >
-                    Regime Aberto
-                  </h2>
-                  <p
-                    className={`${darkTheme ? `text-white` : `text-black`} transition-all duration-300`}
-                  >
-                    120 dias
-                  </p>
-                </div>
-
-                <div className="flex flex-col items-center gap-3">
-                  <h2
-                    className={`${darkTheme ? `text-[#fff5e2]` : `text-[#00021a]`} font-bold transition-all duration-300`}
-                  >
-                    Liberdade Condicional
-                  </h2>
-                  <p
-                    className={`${darkTheme ? `text-white` : `text-black`} transition-all duration-300`}
-                  >
-                    120 dias
-                  </p>
-                </div>
-              </div>
-              <div className="flex p-5">
-                <button
-                  className={`${darkTheme ? `bg-[#D88715]` : `bg-[#F5AE6F]`} text-white rounded-2xl p-5 text-xl flex gap-5 items-center cursor-pointer hover:scale-110 transition-all duration-300`}
-                >
-                  Calcular {<FaCalculator />}
-                </button>
+              
+              <div className="flex p-5 cursor-pointer" onClick={() => setShowPopup(true)}>
+                <PenaltyCalculator 
+                penaltyYears={penaltyYears}
+                penaltyMonths={penaltyMonths}
+                penaltyDays={penaltyDays}
+                baseDate={baseDate}
+                detractionDays={detractionDays}
+                crimeType={crimeType}
+                inmateStatus={inMateStatus}
+                initialRegime={initialRegime}
+                daysWorked={daysWorked}
+                studyHours={studyHours}
+                booksRead={booksRead}
+                ></PenaltyCalculator>
+                
               </div>
             </div>
           </div>
@@ -731,6 +657,43 @@ export default function Calculator() {
           </footer>
         </div>
       </div>
+
+      {showPopup && (
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div
+          className={`${
+            darkTheme ? "bg-[#1E1E20] text-white" : "bg-white text-black"
+          } flex flex-col p-8 gap-2 rounded-xl shadow-2xl min-w-100`}
+        >
+          <div className="flex flex-col gap-10">
+
+            <div className="flex flex-col gap-">
+              <h1 className="text-2xl font-bold">
+                Deseja entrar em contato com um advogado?
+              </h1>
+              <h2 className="text-lg">Estamos prontos para te ouvir!</h2>
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <p><span className="font-bold">Whatsapp: </span>(11) 98208-1902</p>
+              <p><span className="font-bold">Email: </span>contato@cespedeslourencoadvogados.com.br</p>
+            </div>
+
+          </div>
+          
+
+          <button
+            onClick={() => setShowPopup(false)}
+            className={`${
+              darkTheme ? "bg-[#D88715]" : "bg-[#F5AE6F]"
+            } mt-6 px-4 py-2 rounded-lg text-white w-fit cursor-pointer hover:scale-120 transition-all duration-300`}
+          >
+            Fechar
+          </button>
+        </div>
+      </div>
+    )}
+
     </main>
   );
 }

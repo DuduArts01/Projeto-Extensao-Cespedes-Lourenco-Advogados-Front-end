@@ -46,9 +46,9 @@ export default function About() {
                         <div className='flex flex-col gap-5'>
                             <h2 className={`${darkTheme ? `text-white` : `text-[#C59151]`} font-bold text-xl transition-all duration-300`}>Contatos</h2>
                             <div className='flex flex-col'>
-                                <p className={`${darkTheme ? `text-[#BCBCBC]` : `text-black`} transition-all duration-300`}><span className={`${darkTheme ? `text-white` : `text-black`} font-bold transition-all duration-300`}>Email: </span>Email do Cara</p>
-                                <p className={`${darkTheme ? `text-[#BCBCBC]` : `text-black`} transition-all duration-300`}><span className={`${darkTheme ? `text-white` : `text-black`} font-bold transition-all duration-300`}>Linkedin: </span>Linkedin do Cara</p>
-                                <p className={`${darkTheme ? `text-[#BCBCBC]` : `text-black`} transition-all duration-300`}><span className={`${darkTheme ? `text-white` : `text-black`} font-bold transition-all duration-300`}>Whatsapp: </span>Zap do Cara</p>
+                                <p className={`${darkTheme ? `text-[#BCBCBC]` : `text-black`} transition-all duration-300`}><span className={`${darkTheme ? `text-white` : `text-black`} font-bold transition-all duration-300`}>Whatsapp: </span>(11) 98208-1902</p>
+                                <p className={`${darkTheme ? `text-[#BCBCBC]` : `text-black`} transition-all duration-300`}><span className={`${darkTheme ? `text-white` : `text-black`} font-bold transition-all duration-300`}>Email: </span>contato@cespedeslourencoadvogados.com.br</p>
+                                <p className={`${darkTheme ? `text-[#BCBCBC]` : `text-black`} transition-all duration-300`}><span className={`${darkTheme ? `text-white` : `text-black`} font-bold transition-all duration-300`}>Linkedin: </span>https://www.linkedin.com/in/henrique-cespedes-lourenço-a162064a/</p>
                             </div>
                         </div>
 
@@ -89,9 +89,9 @@ export default function About() {
                         <div className='flex flex-col gap-5'>
                             <h2 className={`${darkTheme ? `text-white` : `text-[#C59151]`} font-bold text-xl transition-all duration-300`}>Contatos</h2>
                             <div className='flex flex-col'>
-                                <p className={`${darkTheme ? `text-[#BCBCBC]` : `text-black`} transition-all duration-300`}><span className={`${darkTheme ? `text-white` : `text-black`} font-bold transition-all duration-300`}>Email: </span>Email da Moça</p>
-                                <p className={`${darkTheme ? `text-[#BCBCBC]` : `text-black`} transition-all duration-300`}><span className={`${darkTheme ? `text-white` : `text-black`} font-bold transition-all duration-300`}>Linkedin: </span>Linkedin da Moça</p>
-                                <p className={`${darkTheme ? `text-[#BCBCBC]` : `text-black`} transition-all duration-300`}><span className={`${darkTheme ? `text-white` : `text-black`} font-bold transition-all duration-300`}>Whatsapp: </span>Zap da Moça</p>
+                                <p className={`${darkTheme ? `text-[#BCBCBC]` : `text-black`} transition-all duration-300`}><span className={`${darkTheme ? `text-white` : `text-black`} font-bold transition-all duration-300`}>Whatsapp: </span>(11) 98208-1902</p>
+                                <p className={`${darkTheme ? `text-[#BCBCBC]` : `text-black`} transition-all duration-300`}><span className={`${darkTheme ? `text-white` : `text-black`} font-bold transition-all duration-300`}>Email: </span>contato@cespedeslourencoadvogados.com.br</p>
+                                <p className={`${darkTheme ? `text-[#BCBCBC]` : `text-black`} transition-all duration-300`}><span className={`${darkTheme ? `text-white` : `text-black`} font-bold transition-all duration-300`}>Linkedin: </span>https://www.linkedin.com/in/heloisa-cespedes-lourenço-123a1436/</p>
                             </div>
                         </div>
 
