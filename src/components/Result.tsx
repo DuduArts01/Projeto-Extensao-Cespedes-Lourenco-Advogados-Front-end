@@ -47,7 +47,7 @@ const PenaltyCalculator = ({ penaltyYears, penaltyMonths, penaltyDays, baseDate,
     }
 };
 
-  const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
       e.preventDefault();
       const formData = {
           penaltyYears: parseInt(penaltyYears),
