@@ -1,7 +1,21 @@
 import { useState, useContext } from 'react';
 import { ThemeContext } from "../contexts/themeContext";
 
-type FormData = {
+type PenaltyCalculatorProps = {
+    penaltyYears: string;
+    penaltyMonths: string;
+    penaltyDays: string;
+    baseDate: string;
+    detractionDays: string;
+    crimeType: string;
+    inmateStatus: string;
+    initialRegime: string;
+    daysWorked: string;
+    studyHours: string;
+    booksRead: string;
+  };
+  
+  type FormData = {
     penaltyYears: number;
     penaltyMonths: number;
     penaltyDays: number;
@@ -9,16 +23,30 @@ type FormData = {
     detractionDays: number;
     crimeType: string;
     inmateStatus: string;
+    initialRegime: string;
     daysWorked: number;
     studyHours: number;
     booksRead: number;
-};
+  };
 
+type CalculatorResult = {
+    schedule: {
+      semiOpenEligibilityDate: string;
+      openEligibilityDate: string;
+      conditionalReleaseDate: string;
+      penaltyEndDate: string;
+    };
+  };  
 
-const PenaltyCalculator = ({ penaltyYears, penaltyMonths, penaltyDays, baseDate, detractionDays, crimeType, inmateStatus, initialRegime, daysWorked, studyHours, booksRead}) => {
-    const [result, setResult] = useState(null);
+const PenaltyCalculator = ({
+    penaltyYears, penaltyMonths, penaltyDays,
+    baseDate, detractionDays, crimeType,
+    inmateStatus, initialRegime, daysWorked,
+    studyHours, booksRead
+  }: PenaltyCalculatorProps) => {
+    const [result, setResult] = useState<CalculatorResult | null>(null);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState<string | null>(null);
     
     const calculatePenalty = async (formData: FormData) => {
         setLoading(true);
@@ -40,8 +68,7 @@ const PenaltyCalculator = ({ penaltyYears, penaltyMonths, penaltyDays, baseDate,
       const data = await response.json();
       setResult(data);
     } catch (err) {
-        console.error(err);
-        setError(err.message);
+        setError(err instanceof Error ? err.message : 'Erro desconhecido');
     } finally {
         setLoading(false);
     }
@@ -77,7 +104,7 @@ const PenaltyCalculator = ({ penaltyYears, penaltyMonths, penaltyDays, baseDate,
             </button>
         </form>
 
-        {error && <p style={{color: 'red'}}>Erro: Digite os valores pedidos</p>}
+        {error && <p style={{color: 'red'}}>Digite os valores pedidos</p>}
 
 
 
