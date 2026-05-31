@@ -536,7 +536,7 @@ export default function Calculator() {
 
             <div className="flex w-full gap-10 justify-between">
               
-              <div className="flex p-5 cursor-pointer" onClick={() => setShowPopup(true)}>
+              <div className="flex p-5 cursor-pointer" onClick={() => setShowPopup(true)} >
                 <PenaltyCalculator 
                 penaltyYears={penaltyYears}
                 penaltyMonths={penaltyMonths}
