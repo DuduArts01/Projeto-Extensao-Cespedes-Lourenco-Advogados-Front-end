@@ -117,8 +117,24 @@ export default function Calculator() {
     const baseDate = evento.target.value.replace("/", "-");
 
     setBaseDate(baseDate);
+
+    if (baseDate.length === 10) {
+      const [dateDay, dateMonth, dateYear] = baseDate.split('-').map(Number);
+  
+    if (
+      dateDay < 1 ||
+      dateDay > 31 ||
+      dateMonth < 1 ||
+      dateMonth > 12 ||
+      dateYear < 0
+      ) {
+      setDateError('Digite uma data válida');
+      return;
+      }
+    }
+
     if (baseDate.length > 10) {
-      setDateError("Digite uma data válida")
+      setDateError("Digite uma data válida.")
     } else {
       setDateError('');
     }
