@@ -1,4 +1,9 @@
-export default function Checkbox({ label, darkTheme }) {
+interface CheckboxProps {
+  label: string;
+  darkTheme: boolean;
+}
+
+export default function Checkbox({ label, darkTheme }: CheckboxProps) {
     return (
       <div className="flex gap-2 items-center">
         <div className="flex relative">
