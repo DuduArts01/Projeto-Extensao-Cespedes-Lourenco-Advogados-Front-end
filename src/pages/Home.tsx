@@ -3,6 +3,7 @@ import '../App.css'
 import Navbar from '../components/Navbar'
 import { ThemeContext } from "../contexts/themeContext";
 import { useContext } from "react";
+import paralax1 from "../assets/images/paralax1.jpg";
 
 export default function Home() {
 
@@ -18,7 +19,8 @@ export default function Home() {
             <div>
                 <Navbar></Navbar>
             </div>
-            <div className={`${darkTheme ? `bg-[url(src/assets/images/paralax1.jpg)]` : `bg-[#f7f3ed]`} bg-cover flex-1 flex flex-col justify-start items-center p-40 gap-30 transition-all duration-300`}>
+            <div className={`${darkTheme ? "" : "bg-[#f7f3ed]"} bg-cover flex-1 flex flex-col justify-start items-center p-40 gap-30 transition-all duration-300`}
+            style={darkTheme ? { backgroundImage: `url(${paralax1})` } : {}}>
                 <div className='flex flex-col text-center gap-5'>
                     <h1 className='text-[#F5AE6F] text-4xl font-bold'>Calculadora Penal</h1>
                     <h2 className={`${darkTheme ? `text-white` : `text-black`} text-6xl font-bold w-250 transition-all duration-300`}>Lutando pelos direitos de cada cidadão e trazendo uma justiça transparente </h2>
