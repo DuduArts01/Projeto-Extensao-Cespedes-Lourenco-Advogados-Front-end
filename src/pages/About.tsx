@@ -2,6 +2,7 @@ import '../App.css'
 import Navbar from '../components/Navbar'
 import { ThemeContext } from "../contexts/themeContext";
 import { useContext } from "react";
+import logo_branca from "../assets/images/logo_branca.png";
 
 export default function About() {
 
@@ -52,7 +53,7 @@ export default function About() {
                             </div>
                         </div>
 
-                        <img src="src\assets\images\logo-branca.png" alt="logo-branca-cespedes.png" /> 
+                        {darkTheme ? <img src={logo_branca} alt="logo-branca-cespedes.png" /> : ``} 
 
                     </div>
 
@@ -95,7 +96,7 @@ export default function About() {
                             </div>
                         </div>
 
-                        <img src="src\assets\images\logo-branca.png" alt="logo-branca-cespedes.png" /> 
+                        {darkTheme ? <img src={logo_branca} alt="logo-branca-cespedes.png" /> : ``}
 
                     </div>
 
