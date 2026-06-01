@@ -3,6 +3,8 @@ import Navbar from '../components/Navbar'
 import { ThemeContext } from "../contexts/themeContext";
 import { useContext } from "react";
 import logo_branca from "../assets/images/logo_branca.png";
+import henrique_cespedes from "../assets/images/henrique_cespedes.png";
+import heloisa_cespedes from "../assets/images/heloisa_cespedes.png";
 
 export default function About() {
 
@@ -27,7 +29,7 @@ export default function About() {
                     </div>
 
                     <div className='flex gap-10'>
-                        <img src="src\assets\images\henrique_cespedes.png" alt="foto_perfil_henrique" className='rounded-xl h-90'/>
+                        <img src={henrique_cespedes} alt="foto_perfil_henrique" className='rounded-xl h-90'/>
                         <div className='flex flex-col gap-5'>
                             <h2 className={`${darkTheme ? `text-white` : `text-[#C59151]`} font-bold text-xl pl-10 transition-all duration-300`}>Formação</h2>  
                             <div className='flex flex-col items-start justify-between gap-5 pl-10'>
@@ -69,7 +71,7 @@ export default function About() {
                     </div>
 
                     <div className='flex gap-10'>
-                        <img src="src\assets\images\heloisa_cespedes.png" alt="foto_perfil_heloisa" className='rounded-xl h-90'/>
+                        <img src={heloisa_cespedes} alt="foto_perfil_heloisa" className='rounded-xl h-90'/>
                         <div className='flex flex-col gap-5'>
                             <h2 className={`${darkTheme ? `text-white` : `text-[#C59151]`} font-bold text-xl pl-10 transition-all duration-300`}>Formação</h2>  
                             <div className='flex flex-col items-start justify-between gap-5 pl-10'>
